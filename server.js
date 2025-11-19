@@ -25,8 +25,8 @@ const server = http.createServer(app);
 // Attach socket.io to the SAME server
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
+    origin: ["http://localhost:3000", "https://your-netlify-site.netlify.app"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   },
 });
