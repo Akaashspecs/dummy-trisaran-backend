@@ -56,7 +56,11 @@ listenToNotifications();
 
 // Middleware
 app.use(helmet());
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://your-netlify-site.netlify.app"],
+  })
+);
 app.use(express.json({ limit: "20mb" }));
 app.use(express.urlencoded({ limit: "20mb", extended: true }));
 
