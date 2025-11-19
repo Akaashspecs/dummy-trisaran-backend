@@ -21,11 +21,15 @@ const app = express();
 
 // Create SINGLE server
 const server = http.createServer(app);
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://trisaran-app.netlify.app",
+];
 
 // Attach socket.io to the SAME server
 const io = socketIo(server, {
   cors: {
-    origin: ["http://localhost:3000", "https://your-netlify-site.netlify.app"],
+    origin: allowedOrigins,
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   },
@@ -58,7 +62,8 @@ listenToNotifications();
 app.use(helmet());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://your-netlify-site.netlify.app"],
+    origin: allowedOrigins,
+    credentials: true,
   })
 );
 app.use(express.json({ limit: "20mb" }));
