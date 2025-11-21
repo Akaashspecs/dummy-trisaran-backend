@@ -40,18 +40,28 @@ exports.createKycRequest = async (req, res) => {
 
     // Save to "kycRequest" collection
     const docRef = await db.collection("kycRequests").add(kycData);
-    console.log("ddsdfsdfds");
+
     await db.collection("users").doc(data.userId).update({
       kycStatus: "pending",
       profileImageBase64: data.profileImageBase64,
       updatedAt: timestamp,
     });
 
+    const docSnap = await db.collection("users").doc(data.userId).get();
+
+    if (!docSnap.exists) {
+      console.log("No such user!");
+      return null;
+    }
+
+    const user = docSnap.data();
+
     return res.status(201).json({
       success: true,
       message: "KYC request submitted successfully",
       kycId: docRef.id,
       data: kycData,
+      user: user,
     });
   } catch (error) {
     console.error("Error submitting KYC:", error);
